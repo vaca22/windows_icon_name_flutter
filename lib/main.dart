@@ -30,11 +30,40 @@ class vaca extends StatefulWidget {
 
 class _vacaState extends State<vaca> {
   List<Quote> quotes = [
-    Quote(text: "fuck1", author: "fuck2"),
-    Quote(text: "asdf", author: "fdasa"),
-    Quote(text: "qwer", author: "rewq"),
-    Quote(text: "zxcv", author: "vczxz"),
+    Quote(text: "fuckgfgdfsgfsdfgsdfgdsfdg1", author: "fuck2"),
+    Quote(text: "asdsdfgsdfgdsdfgdsfgsfgdsfgf", author: "fdasa"),
+    Quote(text: "qwedsfgsdfgfddfsgdsfgsgxdfgr", author: "rewq"),
+    Quote(text: "zxcdsfgdsfgsdfdsfgsfdgdfggdsfv", author: "vczxz"),
   ];
+
+  Widget dada(quote) {
+    return Card(
+      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              quote.text,
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(height: 6.0),
+            Text(
+              quote.author,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey[800],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +75,7 @@ class _vacaState extends State<vaca> {
         backgroundColor: Colors.redAccent,
       ),
       body: Column(
-        children: quotes.map((quote) {
-          return Text("${quote.author}-${quote.text}");
-        }).toList(),
+        children: quotes.map((quote) => dada(quote)).toList(),
       ),
     );
   }

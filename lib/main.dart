@@ -36,12 +36,6 @@ class _vacaState extends State<vaca> {
     Quote(text: "zxcdsfgdsfgsdfdsfgsfdgdfggdsfv", author: "vczxz"),
   ];
 
-  Widget dada(quote) {
-    return QuoteWidget(
-      quote: quote,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +46,11 @@ class _vacaState extends State<vaca> {
         backgroundColor: Colors.redAccent,
       ),
       body: Column(
-        children: quotes.map((quote) => dada(quote)).toList(),
+        children: quotes
+            .map((quote) => QuoteWidget(
+                  quote: quote,
+                ))
+            .toList(),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'quote.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -27,7 +29,12 @@ class vaca extends StatefulWidget {
 }
 
 class _vacaState extends State<vaca> {
-  List<String> quotes = ["fuck1", "fuck2", "fuck3"];
+  List<Quote> quotes = [
+    Quote(text: "fuck1", author: "fuck2"),
+    Quote(text: "asdf", author: "fdasa"),
+    Quote(text: "qwer", author: "rewq"),
+    Quote(text: "zxcv", author: "vczxz"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +47,7 @@ class _vacaState extends State<vaca> {
       ),
       body: Column(
         children: quotes.map((quote) {
-          return Text(quote);
+          return Text("${quote.author}-${quote.text}");
         }).toList(),
       ),
     );

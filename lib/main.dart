@@ -49,8 +49,12 @@ class _vacaState extends State<vaca> {
       body: Column(
         children: quotes
             .map((quote) => QuoteWidget(
-                  quote: quote,
-                ))
+                quote: quote,
+                delete: () {
+                  setState(() {
+                    quotes.remove(quote);
+                  });
+                }))
             .toList(),
       ),
     );

@@ -37,10 +37,37 @@ class _vacaState extends State<vaca> {
   ];
 
   Widget dada(quote) {
+    return QuoteWidget(
+      quote: quote,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text("网络音频"),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
+      ),
+      body: Column(
+        children: quotes.map((quote) => dada(quote)).toList(),
+      ),
+    );
+  }
+}
+
+class QuoteWidget extends StatelessWidget {
+  Quote quote;
+  QuoteWidget({required this.quote});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -61,21 +88,6 @@ class _vacaState extends State<vaca> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text("网络音频"),
-        centerTitle: true,
-        backgroundColor: Colors.redAccent,
-      ),
-      body: Column(
-        children: quotes.map((quote) => dada(quote)).toList(),
       ),
     );
   }

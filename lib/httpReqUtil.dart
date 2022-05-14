@@ -16,4 +16,10 @@ class HttpReqUtil {
     var response = await http.get(url);
     return response;
   }
+
+  Future<http.Response> deleteItem(String s) async {
+    var url = Uri.parse('http://192.168.6.106/delete/' + s);
+    var response = await http.post(url);
+    return response;
+  }
 }

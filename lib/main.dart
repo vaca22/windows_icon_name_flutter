@@ -49,9 +49,7 @@ class _vacaState extends State<vaca> {
         .map((quote) => QuoteWidget(
             quote: quote,
             delete: () {
-              setState(() {
-                quotes.remove(quote);
-              });
+              delList(quote.text);
             }))
         .toList();
     return dadax;
@@ -67,6 +65,18 @@ class _vacaState extends State<vaca> {
 
   void getMyList() async {
     var result = await httpUtils.getList();
+    String body = result.body;
+    List<dynamic> tagsJson = jsonDecode(body);
+    print(tagsJson.length);
+    quotes.clear();
+    for (int k = 0; k < tagsJson.length; k++) {
+      quotes.add(Quote(text: tagsJson[k], author: ""));
+    }
+    setState(() {});
+  }
+
+  void delList(String s) async {
+    var result = await httpUtils.deleteItem(s);
     String body = result.body;
     List<dynamic> tagsJson = jsonDecode(body);
     print(tagsJson.length);

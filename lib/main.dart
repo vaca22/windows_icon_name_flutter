@@ -1,9 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/quote_card.dart';
+import 'package:window_size/window_size.dart';
 
 import 'quote.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('Flutter Demo');
+    setWindowMinSize(const Size(400, 300));
+    setWindowMaxSize(Size.infinite);
+  }
   runApp(const MyApp());
 }
 
@@ -46,7 +55,7 @@ class _vacaState extends State<vaca> {
         centerTitle: true,
         backgroundColor: Colors.redAccent,
       ),
-      body: Column(
+      body: ListView(
         children: quotes
             .map((quote) => QuoteWidget(
                 quote: quote,

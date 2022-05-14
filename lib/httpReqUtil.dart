@@ -1,14 +1,52 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 class HttpReqUtil {
-  Future<http.Response> postFile(File f) async {
+  void postFile(File f) async {
     String name = basename(f.path);
     var url = Uri.parse('http://192.168.6.106/upload/' + name);
-    var response = await http.post(url, body: f.readAsBytesSync());
-    return response;
+    var response = http.post(url, body: f.readAsBytesSync());
+    response.asStream().first;
+  }
+
+  static HttpClient getHttpClient() {
+    HttpClient httpClient = HttpClient()
+      ..connectionTimeout = const Duration(seconds: 10);
+
+    return httpClient;
+  }
+
+  static void fileUpload(File file) async {
+    const url = 'http://192.168.6.106/upload/file.mp3';
+    final fileStream = file.openRead();
+    int totalByteLength = file.lengthSync();
+    final httpClient = getHttpClient();
+    final request = await httpClient.postUrl(Uri.parse(url));
+    request.contentLength = totalByteLength;
+    int byteCount = 0;
+    Stream<List<int>> streamUpload = fileStream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) {
+          byteCount += data.length;
+          print("" +
+              byteCount.toString() +
+              "      " +
+              totalByteLength.toString());
+          sink.add(data);
+        },
+        handleError: (error, stack, sink) {
+          print(error.toString());
+        },
+        handleDone: (sink) {
+          sink.close();
+        },
+      ),
+    );
+    await request.addStream(streamUpload);
+    final httpResponse = await request.close();
   }
 
   Future<http.Response> getList() async {

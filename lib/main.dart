@@ -64,7 +64,6 @@ class _vacaState extends State<vaca> {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path!);
-      //httpUtils.postFile(file);
       HttpReqUtil.fileUpload(file);
     } else {}
   }
@@ -84,7 +83,7 @@ class _vacaState extends State<vaca> {
 
   void delList(String s) async {
     var result = await httpUtils.deleteItem(s);
-    String body = result.body;
+    String body = utf8.decode(result.bodyBytes);
     List<dynamic> tagsJson = jsonDecode(body);
     print(tagsJson.length);
     song.clear();
@@ -97,7 +96,7 @@ class _vacaState extends State<vaca> {
   void playList(String s, bool isPlay) async {
     if (isPlay) {
       var result = await httpUtils.pauseItem(s);
-      String body = result.body;
+      String body = utf8.decode(result.bodyBytes);
       List<dynamic> tagsJson = jsonDecode(body);
       print(tagsJson.length);
       song.clear();
@@ -106,7 +105,7 @@ class _vacaState extends State<vaca> {
       }
     } else {
       var result = await httpUtils.playItem(s);
-      String body = result.body;
+      String body = utf8.decode(result.bodyBytes);
       List<dynamic> tagsJson = jsonDecode(body);
       print(tagsJson.length);
       song.clear();

@@ -48,7 +48,7 @@ class _vacaState extends State<vaca> {
   List<Widget> dispSongList() {
     List<Widget> result = song
         .map((quote) => SongWidget(
-              quote: quote,
+              song: quote,
               delete: () {
                 delList(quote.text);
               },

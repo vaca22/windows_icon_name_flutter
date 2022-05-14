@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/song.dart';
 
 class SongWidget extends StatelessWidget {
-  final Song quote;
+  final Song song;
   final Function delete;
   final Function play;
-  SongWidget({required this.quote, required this.delete, required this.play});
+  SongWidget({required this.song, required this.delete, required this.play});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SongWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              quote.text,
+              song.text,
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.grey[600],
@@ -26,7 +26,7 @@ class SongWidget extends StatelessWidget {
             ),
             SizedBox(height: 6.0),
             Text(
-              quote.author,
+              song.author,
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.grey[800],
@@ -42,8 +42,10 @@ class SongWidget extends StatelessWidget {
                     onPressed: () {
                       play();
                     },
-                    icon: Icon(Icons.play_circle_fill),
-                    label: Text('播放')),
+                    icon: song.isPlay
+                        ? Icon(Icons.pause_circle_filled)
+                        : Icon(Icons.play_circle_fill),
+                    label: song.isPlay ? Text('暂停') : Text('播放')),
                 FlatButton.icon(
                     onPressed: () {
                       delete();

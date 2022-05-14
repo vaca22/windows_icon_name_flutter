@@ -71,7 +71,8 @@ class _vacaState extends State<vaca> {
 
   void getMyList() async {
     var result = await httpUtils.getList();
-    String body = result.body;
+    String body = utf8.decode(result.bodyBytes);
+    print(body);
     List<dynamic> tagsJson = jsonDecode(body);
     print(tagsJson.length);
     song.clear();

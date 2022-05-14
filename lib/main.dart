@@ -46,6 +46,19 @@ class _vacaState extends State<vaca> {
     Quote(text: "zxcdsfgdsfgsdfdsfgsfdgdfggdsfv", author: "vczxz"),
   ];
 
+  List<Widget> dada() {
+    List<Widget> dadax = quotes
+        .map((quote) => QuoteWidget(
+            quote: quote,
+            delete: () {
+              setState(() {
+                quotes.remove(quote);
+              });
+            }))
+        .toList();
+    return dadax;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,16 +68,22 @@ class _vacaState extends State<vaca> {
         centerTitle: true,
         backgroundColor: Colors.redAccent,
       ),
-      body: ListView(
-        children: quotes
-            .map((quote) => QuoteWidget(
-                quote: quote,
-                delete: () {
-                  setState(() {
-                    quotes.remove(quote);
-                  });
-                }))
-            .toList(),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView(
+            children: dada(),
+          )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FlatButton.icon(
+                onPressed: () {
+                  // delete();
+                },
+                icon: Icon(Icons.add),
+                label: Text('添加歌曲')),
+          )
+        ],
       ),
     );
   }

@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:html';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:http_file_list_flutter/quote_card.dart';
+import 'package:http_file_list_flutter/song_card.dart';
 import 'package:window_size/window_size.dart';
 
 import 'httpReqUtil.dart';
-import 'quote.dart';
+import 'song.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,12 +42,12 @@ class vaca extends StatefulWidget {
 }
 
 class _vacaState extends State<vaca> {
-  List<Quote> song = [];
+  List<Song> song = [];
   HttpReqUtil httpUtils = HttpReqUtil();
 
   List<Widget> dispSongList() {
     List<Widget> result = song
-        .map((quote) => QuoteWidget(
+        .map((quote) => SongWidget(
               quote: quote,
               delete: () {
                 delList(quote.text);
@@ -76,7 +75,7 @@ class _vacaState extends State<vaca> {
     print(tagsJson.length);
     song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
-      song.add(Quote(text: tagsJson[k], author: ""));
+      song.add(Song(text: tagsJson[k], author: ""));
     }
     setState(() {});
   }
@@ -88,7 +87,7 @@ class _vacaState extends State<vaca> {
     print(tagsJson.length);
     song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
-      song.add(Quote(text: tagsJson[k], author: ""));
+      song.add(Song(text: tagsJson[k], author: ""));
     }
     setState(() {});
   }
@@ -101,9 +100,9 @@ class _vacaState extends State<vaca> {
     song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
       if (tagsJson[k] == s) {
-        song.add(Quote(text: tagsJson[k], author: "", isPlay: true));
+        song.add(Song(text: tagsJson[k], author: "", isPlay: true));
       } else {
-        song.add(Quote(text: tagsJson[k], author: "", isPlay: false));
+        song.add(Song(text: tagsJson[k], author: "", isPlay: false));
       }
     }
     setState(() {});

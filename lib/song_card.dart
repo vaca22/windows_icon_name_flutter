@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http_file_list_flutter/quote.dart';
+import 'package:http_file_list_flutter/song.dart';
 
-class QuoteWidget extends StatelessWidget {
-  final Quote quote;
+class SongWidget extends StatelessWidget {
+  final Song quote;
   final Function delete;
   final Function play;
-  QuoteWidget({required this.quote, required this.delete, required this.play});
+  SongWidget({required this.quote, required this.delete, required this.play});
 
   @override
   Widget build(BuildContext context) {

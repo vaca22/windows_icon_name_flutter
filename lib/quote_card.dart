@@ -38,8 +38,8 @@ class QuoteWidget extends StatelessWidget {
                 onPressed: () {
                   delete();
                 },
-                icon: Icon(Icons.delete),
-                label: Text('delete'))
+                icon: Icon(Icons.play_circle_fill),
+                label: Text('播放'))
           ],
         ),
       ),

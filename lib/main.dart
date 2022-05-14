@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -99,7 +100,11 @@ class _vacaState extends State<vaca> {
     print(tagsJson.length);
     song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
-      song.add(Quote(text: tagsJson[k], author: ""));
+      if (tagsJson[k] == s) {
+        song.add(Quote(text: tagsJson[k], author: "", isPlay: true));
+      } else {
+        song.add(Quote(text: tagsJson[k], author: "", isPlay: false));
+      }
     }
     setState(() {});
   }

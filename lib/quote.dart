@@ -1,8 +1,7 @@
 class Quote {
   String text;
   String author;
+  bool isPlay;
 
-  Quote({required this.text, required this.author});
+  Quote({required this.text, required this.author, required this.isPlay});
 }
-
-Quote myquote = Quote(author: "fuck1", text: "fuck2");

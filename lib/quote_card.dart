@@ -34,12 +34,23 @@ class QuoteWidget extends StatelessWidget {
             SizedBox(
               height: 8.0,
             ),
-            FlatButton.icon(
-                onPressed: () {
-                  delete();
-                },
-                icon: Icon(Icons.play_circle_fill),
-                label: Text('播放'))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FlatButton.icon(
+                    onPressed: () {
+                      delete();
+                    },
+                    icon: Icon(Icons.play_circle_fill),
+                    label: Text('播放')),
+                FlatButton.icon(
+                    onPressed: () {
+                      delete();
+                    },
+                    icon: Icon(Icons.delete),
+                    label: Text('删除'))
+              ],
+            )
           ],
         ),
       ),

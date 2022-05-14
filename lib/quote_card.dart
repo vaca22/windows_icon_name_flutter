@@ -5,7 +5,8 @@ import 'package:http_file_list_flutter/quote.dart';
 class QuoteWidget extends StatelessWidget {
   final Quote quote;
   final Function delete;
-  QuoteWidget({required this.quote, required this.delete});
+  final Function play;
+  QuoteWidget({required this.quote, required this.delete, required this.play});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class QuoteWidget extends StatelessWidget {
               children: [
                 FlatButton.icon(
                     onPressed: () {
-                      delete();
+                      play();
                     },
                     icon: Icon(Icons.play_circle_fill),
                     label: Text('播放')),

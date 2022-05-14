@@ -42,17 +42,22 @@ class vaca extends StatefulWidget {
 }
 
 class _vacaState extends State<vaca> {
-  List<Quote> quotes = [];
+  List<Quote> song = [];
   HttpReqUtil httpUtils = HttpReqUtil();
+
   List<Widget> dispSongList() {
-    List<Widget> dadax = quotes
+    List<Widget> result = song
         .map((quote) => QuoteWidget(
-            quote: quote,
-            delete: () {
-              delList(quote.text);
-            }))
+              quote: quote,
+              delete: () {
+                delList(quote.text);
+              },
+              play: () {
+                playList(quote.text);
+              },
+            ))
         .toList();
-    return dadax;
+    return result;
   }
 
   void pickFile() async {
@@ -68,9 +73,9 @@ class _vacaState extends State<vaca> {
     String body = result.body;
     List<dynamic> tagsJson = jsonDecode(body);
     print(tagsJson.length);
-    quotes.clear();
+    song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
-      quotes.add(Quote(text: tagsJson[k], author: ""));
+      song.add(Quote(text: tagsJson[k], author: ""));
     }
     setState(() {});
   }
@@ -80,9 +85,21 @@ class _vacaState extends State<vaca> {
     String body = result.body;
     List<dynamic> tagsJson = jsonDecode(body);
     print(tagsJson.length);
-    quotes.clear();
+    song.clear();
     for (int k = 0; k < tagsJson.length; k++) {
-      quotes.add(Quote(text: tagsJson[k], author: ""));
+      song.add(Quote(text: tagsJson[k], author: ""));
+    }
+    setState(() {});
+  }
+
+  void playList(String s) async {
+    var result = await httpUtils.playItem(s);
+    String body = result.body;
+    List<dynamic> tagsJson = jsonDecode(body);
+    print(tagsJson.length);
+    song.clear();
+    for (int k = 0; k < tagsJson.length; k++) {
+      song.add(Quote(text: tagsJson[k], author: ""));
     }
     setState(() {});
   }

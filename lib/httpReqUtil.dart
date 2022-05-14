@@ -22,4 +22,10 @@ class HttpReqUtil {
     var response = await http.post(url);
     return response;
   }
+
+  Future<http.Response> playItem(String s) async {
+    var url = Uri.parse('http://192.168.6.106/play/' + s);
+    var response = await http.post(url);
+    return response;
+  }
 }

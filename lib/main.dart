@@ -53,7 +53,7 @@ class _vacaState extends State<vaca> {
                 delList(quote.text);
               },
               play: () {
-                playList(quote.text);
+                playList(quote.text, quote.isPlay);
               },
             ))
         .toList();
@@ -92,19 +92,31 @@ class _vacaState extends State<vaca> {
     setState(() {});
   }
 
-  void playList(String s) async {
-    var result = await httpUtils.playItem(s);
-    String body = result.body;
-    List<dynamic> tagsJson = jsonDecode(body);
-    print(tagsJson.length);
-    song.clear();
-    for (int k = 0; k < tagsJson.length; k++) {
-      if (tagsJson[k] == s) {
-        song.add(Song(text: tagsJson[k], author: "", isPlay: true));
-      } else {
+  void playList(String s, bool isPlay) async {
+    if (isPlay) {
+      var result = await httpUtils.pauseItem(s);
+      String body = result.body;
+      List<dynamic> tagsJson = jsonDecode(body);
+      print(tagsJson.length);
+      song.clear();
+      for (int k = 0; k < tagsJson.length; k++) {
         song.add(Song(text: tagsJson[k], author: "", isPlay: false));
       }
+    } else {
+      var result = await httpUtils.playItem(s);
+      String body = result.body;
+      List<dynamic> tagsJson = jsonDecode(body);
+      print(tagsJson.length);
+      song.clear();
+      for (int k = 0; k < tagsJson.length; k++) {
+        if (tagsJson[k] == s) {
+          song.add(Song(text: tagsJson[k], author: "", isPlay: true));
+        } else {
+          song.add(Song(text: tagsJson[k], author: "", isPlay: false));
+        }
+      }
     }
+
     setState(() {});
   }
 

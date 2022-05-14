@@ -9,7 +9,7 @@ import 'quote.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Flutter Demo');
+    setWindowTitle('好吃');
     setWindowMinSize(const Size(400, 300));
     setWindowMaxSize(Size.infinite);
   }

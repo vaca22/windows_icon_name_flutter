@@ -20,7 +20,8 @@ class HttpReqUtil {
   }
 
   static void fileUpload(File file) async {
-    const url = 'http://192.168.6.106/upload/file.mp3';
+    String name = basename(file.path);
+    String url = 'http://192.168.6.106/upload/' + name;
     final fileStream = file.openRead();
     int totalByteLength = file.lengthSync();
     final httpClient = getHttpClient();

@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/quote_card.dart';
 import 'package:window_size/window_size.dart';
 
+import 'httpReqUtil.dart';
 import 'quote.dart';
 
 void main() {
@@ -39,14 +42,9 @@ class vaca extends StatefulWidget {
 }
 
 class _vacaState extends State<vaca> {
-  List<Quote> quotes = [
-    Quote(text: "fuckgfgdfsgfsdfgsdfgdsfdg1", author: "fuck2"),
-    Quote(text: "asdsdfgsdfgdsdfgdsfgsfgdsfgf", author: "fdasa"),
-    Quote(text: "qwedsfgsdfgfddfsgdsfgsgxdfgr", author: "rewq"),
-    Quote(text: "zxcdsfgdsfgsdfdsfgsfdgdfggdsfv", author: "vczxz"),
-  ];
-
-  List<Widget> dada() {
+  List<Quote> quotes = [];
+  HttpReqUtil httpUtils = HttpReqUtil();
+  List<Widget> dispSongList() {
     List<Widget> dadax = quotes
         .map((quote) => QuoteWidget(
             quote: quote,
@@ -57,6 +55,33 @@ class _vacaState extends State<vaca> {
             }))
         .toList();
     return dadax;
+  }
+
+  void pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      httpUtils.postFile(file);
+    } else {}
+  }
+
+  void getMyList() async {
+    var result = await httpUtils.getList();
+    String body = result.body;
+    List<dynamic> tagsJson = jsonDecode(body);
+    print(tagsJson.length);
+    quotes.clear();
+    for (int k = 0; k < tagsJson.length; k++) {
+      quotes.add(Quote(text: tagsJson[k], author: ""));
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMyList();
   }
 
   @override
@@ -72,13 +97,13 @@ class _vacaState extends State<vaca> {
         children: [
           Expanded(
               child: ListView(
-            children: dada(),
+            children: dispSongList(),
           )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: FlatButton.icon(
                 onPressed: () {
-                  // delete();
+                  pickFile();
                 },
                 icon: Icon(Icons.add),
                 label: Text('添加歌曲')),

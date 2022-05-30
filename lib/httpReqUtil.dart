@@ -5,9 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 class HttpReqUtil {
+  static String baseAddr = "http://192.168.6.112";
+
   void postFile(File f) async {
     String name = basename(f.path);
-    var url = Uri.parse('http://192.168.6.106/upload/' + name);
+    var url = Uri.parse(baseAddr + '/upload/' + name);
     var response = http.post(url, body: f.readAsBytesSync());
     response.asStream().first;
   }
@@ -21,7 +23,7 @@ class HttpReqUtil {
 
   static void fileUpload(File file) async {
     String name = basename(file.path);
-    String url = 'http://192.168.6.106/upload/' + name;
+    String url = baseAddr + '/upload/' + name;
     final fileStream = file.openRead();
     int totalByteLength = file.lengthSync();
     final httpClient = getHttpClient();
@@ -51,25 +53,25 @@ class HttpReqUtil {
   }
 
   Future<http.Response> getList() async {
-    var url = Uri.parse('http://192.168.6.106/');
+    var url = Uri.parse(baseAddr + '/');
     var response = await http.get(url);
     return response;
   }
 
   Future<http.Response> deleteItem(String s) async {
-    var url = Uri.parse('http://192.168.6.106/delete/' + s);
+    var url = Uri.parse(baseAddr + '/delete/' + s);
     var response = await http.post(url);
     return response;
   }
 
   Future<http.Response> playItem(String s) async {
-    var url = Uri.parse('http://192.168.6.106/play/' + s);
+    var url = Uri.parse(baseAddr + '/play/' + s);
     var response = await http.post(url);
     return response;
   }
 
   Future<http.Response> pauseItem(String s) async {
-    var url = Uri.parse('http://192.168.6.106/pause/' + s);
+    var url = Uri.parse(baseAddr + '/pause/' + s);
     var response = await http.post(url);
     return response;
   }

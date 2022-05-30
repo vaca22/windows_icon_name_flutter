@@ -160,14 +160,26 @@ class _vacaState extends State<vaca> {
                     prefixIcon: Icon(Icons.network_wifi)),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FlatButton.icon(
-                    onPressed: () {
-                      print("fuck" + _controller.text);
-                    },
-                    icon: Icon(Icons.confirmation_num),
-                    label: Text('确定配置')),
-              ),
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    FlatButton.icon(
+                        onPressed: () {
+                          print("fuck" + _controller.text);
+                          HttpReqUtil.baseAddr = "http://" + _controller.text;
+                        },
+                        icon: Icon(Icons.confirmation_num),
+                        label: Text('确定配置')),
+                    FlatButton.icon(
+                        onPressed: () {
+                          getMyList();
+                        },
+                        icon: Icon(Icons.refresh),
+                        label: Text('刷新')),
+                  ],
+                ),
+              )
             ],
           ),
           Expanded(

@@ -4,12 +4,31 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/song_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
 
 import 'httpReqUtil.dart';
 import 'song.dart';
 
+void setIp(String ip) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('ip', ip);
+}
+
+void getIp() async {
+  // Obtain shared preferences.
+  final prefs = await SharedPreferences.getInstance();
+
+  // Try reading data from the 'counter' key. If it doesn't exist, returns null.
+  final String? counter = prefs.getString('ip');
+  if (counter != null) {
+    print("" + counter.toString());
+    HttpReqUtil.baseAddr = counter;
+  }
+}
+
 void main() {
+  getIp();
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('好吃');
@@ -127,6 +146,7 @@ class _vacaState extends State<vaca> {
     // TODO: implement initState
     super.initState();
     _controller = TextEditingController();
+    _controller.text = HttpReqUtil.baseAddr;
     getMyList();
   }
 
@@ -166,8 +186,9 @@ class _vacaState extends State<vaca> {
                   children: [
                     FlatButton.icon(
                         onPressed: () {
-                          print("fuck" + _controller.text);
-                          HttpReqUtil.baseAddr = "http://" + _controller.text;
+                          setIp(_controller.text);
+                          HttpReqUtil.baseAddr = _controller.text;
+                          getMyList();
                         },
                         icon: Icon(Icons.confirmation_num),
                         label: Text('确定配置')),

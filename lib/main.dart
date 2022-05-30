@@ -126,7 +126,16 @@ class _vacaState extends State<vaca> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _controller = TextEditingController();
     getMyList();
+  }
+
+  late TextEditingController _controller;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -142,9 +151,10 @@ class _vacaState extends State<vaca> {
         children: [
           Column(
             children: <Widget>[
-              const TextField(
+              TextField(
                 autofocus: true,
-                decoration: InputDecoration(
+                controller: _controller,
+                decoration: const InputDecoration(
                     labelText: "IP地址",
                     hintText: "输入ip地址",
                     prefixIcon: Icon(Icons.network_wifi)),
@@ -153,7 +163,7 @@ class _vacaState extends State<vaca> {
                 padding: const EdgeInsets.all(8.0),
                 child: FlatButton.icon(
                     onPressed: () {
-                      pickFile();
+                      print("fuck" + _controller.text);
                     },
                     icon: Icon(Icons.confirmation_num),
                     label: Text('确定配置')),

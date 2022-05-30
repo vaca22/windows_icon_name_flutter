@@ -21,7 +21,7 @@ class HttpReqUtil {
     return httpClient;
   }
 
-  static void fileUpload(File file) async {
+  static Future<int> fileUpload(File file) async {
     String name = basename(file.path);
     String url = baseAddr + '/upload/' + name;
     final fileStream = file.openRead();
@@ -49,7 +49,8 @@ class HttpReqUtil {
       ),
     );
     await request.addStream(streamUpload);
-    final httpResponse = await request.close();
+    await request.close();
+    return 0;
   }
 
   Future<http.Response> getList() async {

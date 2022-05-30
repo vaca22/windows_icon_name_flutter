@@ -140,6 +140,26 @@ class _vacaState extends State<vaca> {
       ),
       body: Column(
         children: [
+          Column(
+            children: <Widget>[
+              const TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                    labelText: "IP地址",
+                    hintText: "输入ip地址",
+                    prefixIcon: Icon(Icons.network_wifi)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FlatButton.icon(
+                    onPressed: () {
+                      pickFile();
+                    },
+                    icon: Icon(Icons.confirmation_num),
+                    label: Text('确定配置')),
+              ),
+            ],
+          ),
           Expanded(
               child: ListView(
             children: dispSongList(),

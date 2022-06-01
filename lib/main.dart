@@ -31,7 +31,7 @@ void main() {
   getIp();
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('好吃');
+    setWindowTitle('网络音频');
     setWindowMinSize(const Size(400, 300));
     setWindowMaxSize(Size.infinite);
   }
@@ -49,7 +49,6 @@ void main() {
           print("$recvd from ${dg.address.address}:${dg.port}");
       }
     });
-
     socket.send(
         Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
   });
@@ -200,6 +199,7 @@ class _vacaState extends State<vaca> {
                 Column(
                   children: <Widget>[
                     TextField(
+                      enabled: false,
                       autofocus: true,
                       controller: _controller,
                       decoration: const InputDecoration(
@@ -212,14 +212,6 @@ class _vacaState extends State<vaca> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          FlatButton.icon(
-                              onPressed: () {
-                                setIp(_controller.text);
-                                HttpReqUtil.baseAddr = _controller.text;
-                                getMyList();
-                              },
-                              icon: Icon(Icons.confirmation_num),
-                              label: Text('确定配置')),
                           FlatButton.icon(
                               onPressed: () {
                                 getMyList();

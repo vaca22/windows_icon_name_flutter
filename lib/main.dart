@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http_file_list_flutter/audio_device.dart';
+import 'package:http_file_list_flutter/device_card.dart';
 import 'package:http_file_list_flutter/portscanner.dart';
 import 'package:http_file_list_flutter/song_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,6 +116,7 @@ class vaca extends StatefulWidget {
 
 class _vacaState extends State<vaca> {
   List<Song> song = [];
+  List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
 
   List<Widget> dispSongList() {
@@ -128,6 +131,12 @@ class _vacaState extends State<vaca> {
               },
             ))
         .toList();
+    return result;
+  }
+
+  List<Widget> dispDeviceList() {
+    List<Widget> result =
+        audioDevice.map((quote) => DeviceWidget(song: quote)).toList();
     return result;
   }
 
@@ -193,6 +202,14 @@ class _vacaState extends State<vaca> {
     setState(() {});
   }
 
+  void fuckDevice(List<String> a) {
+    audioDevice.clear();
+    for (var k in a) {
+      audioDevice.add(AudioDevice(text: k));
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -235,7 +252,7 @@ class _vacaState extends State<vaca> {
                         children: [
                           FlatButton.icon(
                               onPressed: () {
-                                scanTcp().then((value) => print(value));
+                                scanTcp().then((value) => fuckDevice(value));
                               },
                               icon: Icon(Icons.search),
                               label: Text('扫描设备')),
@@ -246,7 +263,7 @@ class _vacaState extends State<vaca> {
                 ),
                 Expanded(
                     child: ListView(
-                  children: dispSongList(),
+                  children: dispDeviceList(),
                 )),
               ],
             ),

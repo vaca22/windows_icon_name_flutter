@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http_file_list_flutter/portscanner.dart';
 import 'package:http_file_list_flutter/song_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
@@ -85,6 +86,11 @@ void main() {
         Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
   });
   printIps();
+
+  var scanner = Scanner();
+  scanner.scanPortRange('192.168.6.0/24').then((result) {
+    print(result);
+  });
 }
 
 class MyApp extends StatelessWidget {

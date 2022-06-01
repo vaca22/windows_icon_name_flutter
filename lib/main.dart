@@ -156,15 +156,20 @@ class _vacaState extends State<vaca> {
   }
 
   void getMyList() async {
-    var result = await httpUtils.getList();
-    String body = utf8.decode(result.bodyBytes);
-    print(body);
-    List<dynamic> tagsJson = jsonDecode(body);
-    print(tagsJson.length);
-    song.clear();
-    for (int k = 0; k < tagsJson.length; k++) {
-      song.add(Song(text: tagsJson[k], author: ""));
+    try {
+      var result = await httpUtils.getList();
+      String body = utf8.decode(result.bodyBytes);
+      print(body);
+      List<dynamic> tagsJson = jsonDecode(body);
+      print(tagsJson.length);
+      song.clear();
+      for (int k = 0; k < tagsJson.length; k++) {
+        song.add(Song(text: tagsJson[k], author: ""));
+      }
+    } catch (e) {
+      song.clear();
     }
+
     setState(() {});
   }
 

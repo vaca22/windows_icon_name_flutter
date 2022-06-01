@@ -27,12 +27,34 @@ void getIp() async {
   }
 }
 
+List<String> ips = [];
+RawDatagramSocket? mySocket;
+
 Future printIps() async {
+  ips.clear();
   for (var interface in await NetworkInterface.list()) {
-    print('== Interface: ${interface.name} ==');
     for (var addr in interface.addresses) {
-      print(
-          '${addr.address} ${addr.host} ${addr.isLoopback} ${addr.rawAddress} ${addr.type.name}');
+      final n = addr.address;
+      final a = n.lastIndexOf(".");
+      final b = n.substring(0, a + 1);
+      print('guck1 ${a} ${n}   ${b}');
+      ips.add(b);
+    }
+  }
+}
+
+void scanUdp() async {
+  for (var ipa in ips) {
+    for (var k = 107; k < 110; k++) {
+      final ips = ipa + k.toString();
+      try {
+        if (ipa == "192.168.6.") {
+          mySocket?.send(
+              Utf8Codec().encode("vaca"), InternetAddress(ips), 8889);
+        }
+      } catch (e) {
+        e.toString();
+      }
     }
   }
 }
@@ -49,13 +71,13 @@ void main() {
 
   int port = 8082;
   RawDatagramSocket.bind(InternetAddress.anyIPv4, port).then((socket) {
+    mySocket = socket;
     socket.listen((RawSocketEvent event) {
       if (event == RawSocketEvent.read) {
         Datagram? dg = socket.receive();
         if (dg == null) return;
         final recvd = String.fromCharCodes(dg.data);
-        if (recvd == "vaca")
-          //   socket.send(Utf8Codec().encode("ping ack"), dg.address, 8888);
+        if (recvd.startsWith("xvacax"))
           print("$recvd from ${dg.address.address}:${dg.port}");
       }
     });
@@ -199,7 +221,7 @@ class _vacaState extends State<vaca> {
         children: [
           FlatButton.icon(
               onPressed: () {
-                getMyList();
+                scanUdp();
               },
               icon: Icon(Icons.refresh),
               label: Text('刷新')),

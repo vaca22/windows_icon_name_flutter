@@ -167,55 +167,69 @@ class _vacaState extends State<vaca> {
         centerTitle: true,
         backgroundColor: Colors.redAccent,
       ),
-      body: Column(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Column(
-            children: <Widget>[
-              TextField(
-                autofocus: true,
-                controller: _controller,
-                decoration: const InputDecoration(
-                    labelText: "IP地址",
-                    hintText: "输入ip地址",
-                    prefixIcon: Icon(Icons.network_wifi)),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    FlatButton.icon(
-                        onPressed: () {
-                          setIp(_controller.text);
-                          HttpReqUtil.baseAddr = _controller.text;
-                          getMyList();
-                        },
-                        icon: Icon(Icons.confirmation_num),
-                        label: Text('确定配置')),
-                    FlatButton.icon(
-                        onPressed: () {
-                          getMyList();
-                        },
-                        icon: Icon(Icons.refresh),
-                        label: Text('刷新')),
+          FlatButton.icon(
+              onPressed: () {
+                getMyList();
+              },
+              icon: Icon(Icons.refresh),
+              label: Text('刷新')),
+          SizedBox(
+            width: 400,
+            child: Column(
+              children: [
+                Column(
+                  children: <Widget>[
+                    TextField(
+                      autofocus: true,
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                          labelText: "IP地址",
+                          hintText: "输入ip地址",
+                          prefixIcon: Icon(Icons.network_wifi)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FlatButton.icon(
+                              onPressed: () {
+                                setIp(_controller.text);
+                                HttpReqUtil.baseAddr = _controller.text;
+                                getMyList();
+                              },
+                              icon: Icon(Icons.confirmation_num),
+                              label: Text('确定配置')),
+                          FlatButton.icon(
+                              onPressed: () {
+                                getMyList();
+                              },
+                              icon: Icon(Icons.refresh),
+                              label: Text('刷新')),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
+                Expanded(
+                    child: ListView(
+                  children: dispSongList(),
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FlatButton.icon(
+                      onPressed: () {
+                        pickFile();
+                      },
+                      icon: Icon(Icons.add),
+                      label: Text('添加歌曲')),
+                )
+              ],
+            ),
           ),
-          Expanded(
-              child: ListView(
-            children: dispSongList(),
-          )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FlatButton.icon(
-                onPressed: () {
-                  pickFile();
-                },
-                icon: Icon(Icons.add),
-                label: Text('添加歌曲')),
-          )
         ],
       ),
     );

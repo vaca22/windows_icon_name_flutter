@@ -27,6 +27,16 @@ void getIp() async {
   }
 }
 
+Future printIps() async {
+  for (var interface in await NetworkInterface.list()) {
+    print('== Interface: ${interface.name} ==');
+    for (var addr in interface.addresses) {
+      print(
+          '${addr.address} ${addr.host} ${addr.isLoopback} ${addr.rawAddress} ${addr.type.name}');
+    }
+  }
+}
+
 void main() {
   getIp();
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +62,7 @@ void main() {
     socket.send(
         Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
   });
+  printIps();
 }
 
 class MyApp extends StatelessWidget {

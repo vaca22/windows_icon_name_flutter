@@ -39,24 +39,17 @@ Future printIps() async {
       final a = n.lastIndexOf(".");
       final b = n.substring(0, a + 1);
       print('guck1 ${a} ${n}   ${b}');
-      ips.add(b);
+      ips.add(b + "0/24");
     }
   }
 }
 
-void scanUdp() async {
-  for (var ipa in ips) {
-    for (var k = 107; k < 110; k++) {
-      final ips = ipa + k.toString();
-      try {
-        if (ipa == "192.168.6.") {
-          mySocket?.send(
-              Utf8Codec().encode("vaca"), InternetAddress(ips), 8889);
-        }
-      } catch (e) {
-        e.toString();
-      }
-    }
+final scanner = Scanner();
+void scanTcp() async {
+  for (var ip in ips) {
+    scanner.scanPortRange(ip).then((result) {
+      print(result);
+    });
   }
 }
 
@@ -82,15 +75,10 @@ void main() {
           print("$recvd from ${dg.address.address}:${dg.port}");
       }
     });
-    socket.send(
-        Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
+    // socket.send(
+    //     Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
   });
   printIps();
-
-  var scanner = Scanner();
-  scanner.scanPortRange('192.168.6.0/24').then((result) {
-    print(result);
-  });
 }
 
 class MyApp extends StatelessWidget {
@@ -227,7 +215,7 @@ class _vacaState extends State<vaca> {
         children: [
           FlatButton.icon(
               onPressed: () {
-                scanUdp();
+                scanTcp();
               },
               icon: Icon(Icons.refresh),
               label: Text('刷新')),

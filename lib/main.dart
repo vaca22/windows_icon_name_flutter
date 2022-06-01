@@ -211,7 +211,7 @@ class _vacaState extends State<vaca> {
         backgroundColor: Colors.redAccent,
       ),
       body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FlatButton.icon(
               onPressed: () {
@@ -220,7 +220,7 @@ class _vacaState extends State<vaca> {
               icon: Icon(Icons.refresh),
               label: Text('刷新')),
           SizedBox(
-            width: 400,
+            width: 500,
             child: Column(
               children: [
                 Column(

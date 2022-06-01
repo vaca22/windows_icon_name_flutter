@@ -4,8 +4,8 @@ import 'package:http_file_list_flutter/audio_device.dart';
 
 class DeviceWidget extends StatelessWidget {
   final AudioDevice song;
-
-  DeviceWidget({required this.song});
+  final Function play;
+  DeviceWidget({required this.song, required this.play});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,13 @@ class DeviceWidget extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
+            SizedBox(height: 6.0),
+            FlatButton.icon(
+                onPressed: () {
+                  play();
+                },
+                icon: Icon(Icons.select_all),
+                label: Text('选择')),
           ],
         ),
       ),

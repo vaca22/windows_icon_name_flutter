@@ -135,8 +135,14 @@ class _vacaState extends State<vaca> {
   }
 
   List<Widget> dispDeviceList() {
-    List<Widget> result =
-        audioDevice.map((quote) => DeviceWidget(song: quote)).toList();
+    List<Widget> result = audioDevice
+        .map((quote) => DeviceWidget(
+              song: quote,
+              play: () {
+                selectList(quote.text);
+              },
+            ))
+        .toList();
     return result;
   }
 
@@ -200,6 +206,12 @@ class _vacaState extends State<vaca> {
     }
 
     setState(() {});
+  }
+
+  void selectList(String s) async {
+    HttpReqUtil.baseAddr = s;
+    _controller.text = s;
+    getMyList();
   }
 
   void fuckDevice(List<String> a) {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -45,12 +46,20 @@ Future printIps() async {
 }
 
 final scanner = Scanner();
-void scanTcp() async {
+Future scanTcp() {
+  List<String> foundPorts = [];
+  List<Future> connectionFutures = [];
   for (var ip in ips) {
-    scanner.scanPortRange(ip).then((result) {
-      print(result);
-    });
+    connectionFutures.add(scanner.scanPortRange(ip).then((result) {
+      foundPorts.addAll(result);
+    }));
   }
+
+  Completer completer = new Completer();
+  Future.wait(connectionFutures).then((allSockets) {
+    completer.complete(foundPorts);
+  });
+  return completer.future;
 }
 
 void main() {
@@ -58,7 +67,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('网络音频');
-    setWindowMinSize(const Size(400, 300));
+    setWindowMinSize(const Size(1100, 720));
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());
@@ -213,12 +222,35 @@ class _vacaState extends State<vaca> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FlatButton.icon(
-              onPressed: () {
-                scanTcp();
-              },
-              icon: Icon(Icons.refresh),
-              label: Text('刷新')),
+          SizedBox(
+            width: 300,
+            child: Column(
+              children: [
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FlatButton.icon(
+                              onPressed: () {
+                                getMyList();
+                              },
+                              icon: Icon(Icons.search),
+                              label: Text('扫描设备')),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                    child: ListView(
+                  children: dispSongList(),
+                )),
+              ],
+            ),
+          ),
           SizedBox(
             width: 500,
             child: Column(

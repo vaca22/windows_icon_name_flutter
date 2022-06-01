@@ -36,6 +36,23 @@ void main() {
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());
+
+  int port = 8082;
+  RawDatagramSocket.bind(InternetAddress.anyIPv4, port).then((socket) {
+    socket.listen((RawSocketEvent event) {
+      if (event == RawSocketEvent.read) {
+        Datagram? dg = socket.receive();
+        if (dg == null) return;
+        final recvd = String.fromCharCodes(dg.data);
+        if (recvd == "vaca")
+          //   socket.send(Utf8Codec().encode("ping ack"), dg.address, 8888);
+          print("$recvd from ${dg.address.address}:${dg.port}");
+      }
+    });
+
+    socket.send(
+        Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
+  });
 }
 
 class MyApp extends StatelessWidget {

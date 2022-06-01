@@ -67,7 +67,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('网络音频');
-    setWindowMinSize(const Size(1100, 720));
+    setWindowMinSize(const Size(1000, 700));
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());
@@ -235,7 +235,7 @@ class _vacaState extends State<vaca> {
                         children: [
                           FlatButton.icon(
                               onPressed: () {
-                                getMyList();
+                                scanTcp().then((value) => print(value));
                               },
                               icon: Icon(Icons.search),
                               label: Text('扫描设备')),
@@ -252,7 +252,7 @@ class _vacaState extends State<vaca> {
             ),
           ),
           SizedBox(
-            width: 500,
+            width: 350,
             child: Column(
               children: [
                 Column(

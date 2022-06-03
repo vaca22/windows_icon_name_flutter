@@ -118,7 +118,7 @@ class _vacaState extends State<vaca> {
   List<Song> song = [];
   List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
-
+  double _currentSliderValue = 60;
   List<Widget> dispSongList() {
     List<Widget> result = song
         .map((quote) => SongWidget(
@@ -296,7 +296,7 @@ class _vacaState extends State<vaca> {
                       autofocus: true,
                       controller: _controller,
                       decoration: const InputDecoration(
-                          labelText: "IP地址",
+                          labelText: "设备IP地址",
                           hintText: "输入ip地址",
                           prefixIcon: Icon(Icons.network_wifi)),
                     ),
@@ -313,7 +313,24 @@ class _vacaState extends State<vaca> {
                               label: Text('刷新')),
                         ],
                       ),
-                    )
+                    ),
+                    Slider(
+                      value: _currentSliderValue,
+                      max: 100,
+                      divisions: 100,
+                      label: "音量" + _currentSliderValue.round().toString(),
+                      onChanged: (double value) {
+                        setState(() {
+                          _currentSliderValue = value;
+                        });
+                      },
+                      onChangeEnd: (double value) {
+                        setState(() {
+                          print(value);
+                          _currentSliderValue = value;
+                        });
+                      },
+                    ),
                   ],
                 ),
                 Expanded(

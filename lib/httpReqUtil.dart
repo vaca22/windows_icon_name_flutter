@@ -65,6 +65,12 @@ class HttpReqUtil {
     return response;
   }
 
+  Future<http.Response> volumeItem(String s) async {
+    var url = Uri.parse('http://' + baseAddr + '/volume/' + s);
+    var response = await http.post(url);
+    return response;
+  }
+
   Future<http.Response> playItem(String s) async {
     var url = Uri.parse('http://' + baseAddr + '/play/' + s);
     var response = await http.post(url);

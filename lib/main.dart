@@ -185,6 +185,18 @@ class _vacaState extends State<vaca> {
     setState(() {});
   }
 
+  void volume(String s) async {
+    var result = await httpUtils.volumeItem(s);
+    String body = utf8.decode(result.bodyBytes);
+    List<dynamic> tagsJson = jsonDecode(body);
+    print(tagsJson.length);
+    song.clear();
+    for (int k = 0; k < tagsJson.length; k++) {
+      song.add(Song(text: tagsJson[k], author: ""));
+    }
+    setState(() {});
+  }
+
   void playList(String s, bool isPlay) async {
     if (isPlay) {
       var result = await httpUtils.pauseItem(s);
@@ -321,7 +333,8 @@ class _vacaState extends State<vaca> {
                           onChangeEnd: (double value) {
                             setState(() {
                               print(value);
-                              _currentSliderValue = value;
+                              volume(value.toInt().toString());
+                              var a = _currentSliderValue = value;
                             });
                           },
                         ),

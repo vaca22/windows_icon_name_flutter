@@ -300,36 +300,39 @@ class _vacaState extends State<vaca> {
                           hintText: "输入ip地址",
                           prefixIcon: Icon(Icons.network_wifi)),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          FlatButton.icon(
-                              onPressed: () {
-                                getMyList();
-                              },
-                              icon: Icon(Icons.refresh),
-                              label: Text('刷新')),
-                        ],
-                      ),
-                    ),
-                    Slider(
-                      value: _currentSliderValue,
-                      max: 100,
-                      divisions: 100,
-                      label: "音量" + _currentSliderValue.round().toString(),
-                      onChanged: (double value) {
-                        setState(() {
-                          _currentSliderValue = value;
-                        });
-                      },
-                      onChangeEnd: (double value) {
-                        setState(() {
-                          print(value);
-                          _currentSliderValue = value;
-                        });
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FlatButton.icon(
+                            onPressed: () {
+                              getMyList();
+                            },
+                            icon: Icon(Icons.refresh),
+                            label: Text('刷新')),
+                        Slider(
+                          value: _currentSliderValue,
+                          max: 100,
+                          divisions: 100,
+                          onChanged: (double value) {
+                            setState(() {
+                              _currentSliderValue = value;
+                            });
+                          },
+                          onChangeEnd: (double value) {
+                            setState(() {
+                              print(value);
+                              _currentSliderValue = value;
+                            });
+                          },
+                        ),
+                        const Text(
+                          "音量",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

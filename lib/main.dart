@@ -121,6 +121,8 @@ class _vacaState extends State<vaca> {
   HttpReqUtil httpUtils = HttpReqUtil();
   double _currentSliderValue = 60;
 
+  final ScrollController _scrollController = ScrollController();
+
   List<Widget> dispSongList() {
     List<Widget> result = song
         .map((quote) => SongWidget(
@@ -352,8 +354,13 @@ class _vacaState extends State<vaca> {
                   ],
                 ),
                 Expanded(
-                    child: ListView(
-                  children: dispSongList(),
+                    child: Scrollbar(
+                  controller: _scrollController,
+                  isAlwaysShown: true,
+                  child: ListView(
+                    controller: _scrollController,
+                    children: dispSongList(),
+                  ),
                 )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

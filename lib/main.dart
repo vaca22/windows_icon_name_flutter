@@ -8,6 +8,7 @@ import 'package:http_file_list_flutter/audio_device.dart';
 import 'package:http_file_list_flutter/device_card.dart';
 import 'package:http_file_list_flutter/portscanner.dart';
 import 'package:http_file_list_flutter/song_card.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
 
@@ -395,6 +396,26 @@ class _vacaState extends State<vaca> {
                             icon: Icon(Icons.pages),
                             label: Text('实时播放')),
                       ],
+                    ),
+                  ),
+                  Visibility(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: FittedBox(
+                        child: LinearPercentIndicator(
+                          width: 240.0,
+                          lineHeight: 20.0,
+                          percent: 0.05,
+                          center: Text(
+                            "5.0%",
+                            style:
+                                TextStyle(fontSize: 12.0, color: Colors.white),
+                          ),
+                          barRadius: Radius.circular(20),
+                          backgroundColor: Colors.grey,
+                          progressColor: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(

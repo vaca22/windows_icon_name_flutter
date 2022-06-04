@@ -37,6 +37,7 @@ dependencies:
   file_picker: ^4.5.1
   shared_preferences: ^2.0.13
   http: ^0.13.4
+  percent_indicator: ^4.2.1
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git

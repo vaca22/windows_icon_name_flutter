@@ -121,6 +121,8 @@ class _vacaState extends State<vaca> {
   HttpReqUtil httpUtils = HttpReqUtil();
   double _currentSliderValue = 60;
   bool rightViewVisibility = false;
+  double downloadProgress = 0;
+  bool dispDownload = false;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -156,7 +158,22 @@ class _vacaState extends State<vaca> {
     if (result != null) {
       File file = File(result.files.single.path!);
       await HttpReqUtil.fileUpload(file, (a, b) {
+        if (dispDownload == false) {
+          setState(() {
+            downloadProgress = a.toDouble() / b.toDouble();
+            dispDownload = true;
+          });
+        }
+        setState(() {
+          downloadProgress = a.toDouble() / b.toDouble();
+        });
         print("" + a.toString() + "      " + b.toString());
+
+        if (a == b) {
+          setState(() {
+            dispDownload = false;
+          });
+        }
       });
       getMyList();
     }
@@ -401,15 +418,16 @@ class _vacaState extends State<vaca> {
                     ),
                   ),
                   Visibility(
+                    visible: dispDownload,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: FittedBox(
                         child: LinearPercentIndicator(
                           width: 240.0,
                           lineHeight: 20.0,
-                          percent: 0.05,
+                          percent: downloadProgress,
                           center: Text(
-                            "5.0%",
+                            "${(downloadProgress * 100).toStringAsFixed(1)}%",
                             style:
                                 TextStyle(fontSize: 12.0, color: Colors.white),
                           ),

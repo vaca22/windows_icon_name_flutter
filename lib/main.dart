@@ -119,6 +119,7 @@ class _vacaState extends State<vaca> {
   List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
   double _currentSliderValue = 60;
+  bool rightViewVisibility = false;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -176,7 +177,17 @@ class _vacaState extends State<vaca> {
         song.add(Song(text: tagsJson[k], author: ""));
       }
     } catch (e) {
-      song.clear();
+      // song.clear();
+    }
+
+    if (HttpReqUtil.baseAddr.isEmpty) {
+      setState(() {
+        rightViewVisibility = false;
+      });
+    } else {
+      setState(() {
+        rightViewVisibility = true;
+      });
     }
 
     setState(() {});
@@ -306,89 +317,92 @@ class _vacaState extends State<vaca> {
               ],
             ),
           ),
-          SizedBox(
-            width: 350,
-            child: Column(
-              children: [
-                Column(
-                  children: <Widget>[
-                    TextField(
-                      enabled: false,
-                      autofocus: true,
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                          labelText: "设备IP地址",
-                          hintText: "输入ip地址",
-                          prefixIcon: Icon(Icons.network_wifi)),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          Visibility(
+            visible: rightViewVisibility,
+            child: SizedBox(
+              width: 350,
+              child: Column(
+                children: [
+                  Column(
+                    children: <Widget>[
+                      TextField(
+                        enabled: false,
+                        autofocus: true,
+                        controller: _controller,
+                        decoration: const InputDecoration(
+                            labelText: "设备IP地址",
+                            hintText: "输入ip地址",
+                            prefixIcon: Icon(Icons.network_wifi)),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlatButton.icon(
+                              onPressed: () {
+                                getMyList();
+                              },
+                              icon: Icon(Icons.refresh),
+                              label: Text('刷新')),
+                          Slider(
+                            value: _currentSliderValue,
+                            max: 100,
+                            divisions: 100,
+                            onChanged: (double value) {
+                              setState(() {
+                                //  volume(value.toInt().toString());
+                                _currentSliderValue = value;
+                              });
+                            },
+                            onChangeEnd: (double value) {
+                              setState(() {
+                                print(value);
+                                volume(value.toInt().toString());
+                                // var a = _currentSliderValue = value;
+                              });
+                            },
+                          ),
+                          const Text(
+                            "音量",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         FlatButton.icon(
                             onPressed: () {
-                              getMyList();
+                              pickFile();
                             },
-                            icon: Icon(Icons.refresh),
-                            label: Text('刷新')),
-                        Slider(
-                          value: _currentSliderValue,
-                          max: 100,
-                          divisions: 100,
-                          onChanged: (double value) {
-                            setState(() {
-                              //  volume(value.toInt().toString());
-                              _currentSliderValue = value;
-                            });
-                          },
-                          onChangeEnd: (double value) {
-                            setState(() {
-                              print(value);
-                              volume(value.toInt().toString());
-                              // var a = _currentSliderValue = value;
-                            });
-                          },
-                        ),
-                        const Text(
-                          "音量",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.green,
-                          ),
-                        ),
+                            icon: Icon(Icons.cloud_upload),
+                            label: Text('上传歌曲')),
+                        FlatButton.icon(
+                            onPressed: () {
+                              pickFilePlay();
+                            },
+                            icon: Icon(Icons.pages),
+                            label: Text('实时播放')),
                       ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      FlatButton.icon(
-                          onPressed: () {
-                            pickFile();
-                          },
-                          icon: Icon(Icons.cloud_upload),
-                          label: Text('上传歌曲')),
-                      FlatButton.icon(
-                          onPressed: () {
-                            pickFilePlay();
-                          },
-                          icon: Icon(Icons.pages),
-                          label: Text('实时播放')),
-                    ],
                   ),
-                ),
-                Expanded(
-                    child: Scrollbar(
-                  controller: _scrollController,
-                  isAlwaysShown: true,
-                  child: ListView(
+                  Expanded(
+                      child: Scrollbar(
                     controller: _scrollController,
-                    children: dispSongList(),
-                  ),
-                )),
-              ],
+                    isAlwaysShown: true,
+                    child: ListView(
+                      controller: _scrollController,
+                      children: dispSongList(),
+                    ),
+                  )),
+                ],
+              ),
             ),
           ),
         ],

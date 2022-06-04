@@ -48,6 +48,7 @@ Future printIps() async {
 }
 
 final scanner = Scanner();
+
 Future scanTcp() {
   List<String> foundPorts = [];
   List<Future> connectionFutures = [];
@@ -119,6 +120,7 @@ class _vacaState extends State<vaca> {
   List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
   double _currentSliderValue = 60;
+
   List<Widget> dispSongList() {
     List<Widget> result = song
         .map((quote) => SongWidget(

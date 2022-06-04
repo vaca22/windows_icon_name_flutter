@@ -351,6 +351,26 @@ class _vacaState extends State<vaca> {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      FlatButton.icon(
+                          onPressed: () {
+                            pickFile();
+                          },
+                          icon: Icon(Icons.cloud_upload),
+                          label: Text('上传歌曲')),
+                      FlatButton.icon(
+                          onPressed: () {
+                            pickFile();
+                          },
+                          icon: Icon(Icons.pages),
+                          label: Text('实时播放')),
+                    ],
+                  ),
+                ),
                 Expanded(
                     child: Scrollbar(
                   controller: _scrollController,
@@ -360,15 +380,6 @@ class _vacaState extends State<vaca> {
                     children: dispSongList(),
                   ),
                 )),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlatButton.icon(
-                      onPressed: () {
-                        pickFile();
-                      },
-                      icon: Icon(Icons.cloud_upload),
-                      label: Text('上传歌曲')),
-                )
               ],
             ),
           ),

@@ -359,8 +359,8 @@ class _vacaState extends State<vaca> {
                       onPressed: () {
                         pickFile();
                       },
-                      icon: Icon(Icons.add),
-                      label: Text('添加歌曲')),
+                      icon: Icon(Icons.cloud_upload),
+                      label: Text('上传歌曲')),
                 )
               ],
             ),

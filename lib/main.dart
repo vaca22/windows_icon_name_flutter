@@ -41,7 +41,6 @@ Future printIps() async {
       final n = addr.address;
       final a = n.lastIndexOf(".");
       final b = n.substring(0, a + 1);
-      print('guck1 ${a} ${n}   ${b}');
       ips.add(b + "0/24");
     }
   }
@@ -163,9 +162,7 @@ class _vacaState extends State<vaca> {
     try {
       var result = await httpUtils.getList();
       String body = utf8.decode(result.bodyBytes);
-      print(body);
       List<dynamic> tagsJson = jsonDecode(body);
-      print(tagsJson.length);
       song.clear();
       for (int k = 0; k < tagsJson.length; k++) {
         song.add(Song(text: tagsJson[k], author: ""));

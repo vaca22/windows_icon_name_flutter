@@ -17,8 +17,9 @@ class DeviceWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              song.text,
+              "设备ip: " + song.text,
               style: TextStyle(
+                fontWeight: FontWeight.w500,
                 fontSize: 18.0,
                 color: Colors.grey[600],
               ),
@@ -29,7 +30,7 @@ class DeviceWidget extends StatelessWidget {
                   play();
                 },
                 icon: Icon(Icons.select_all),
-                label: Text('选择')),
+                label: Text('查看详情')),
           ],
         ),
       ),

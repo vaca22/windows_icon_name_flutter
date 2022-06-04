@@ -25,7 +25,7 @@ class DeviceWidget extends StatelessWidget {
               ),
             ),
             SizedBox(height: 6.0),
-            FlatButton.icon(
+            ElevatedButton.icon(
                 onPressed: () {
                   play();
                 },

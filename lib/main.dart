@@ -304,7 +304,7 @@ class _vacaState extends State<vaca> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          FlatButton.icon(
+                          ElevatedButton.icon(
                               onPressed: () {
                                 scanTcp().then((value) => fuckDevice(value));
                               },
@@ -342,7 +342,7 @@ class _vacaState extends State<vaca> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          FlatButton.icon(
+                          ElevatedButton.icon(
                               onPressed: () {
                                 getMyList();
                               },
@@ -382,13 +382,13 @@ class _vacaState extends State<vaca> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        FlatButton.icon(
+                        ElevatedButton.icon(
                             onPressed: () {
                               pickFile();
                             },
                             icon: Icon(Icons.cloud_upload),
                             label: Text('上传歌曲')),
-                        FlatButton.icon(
+                        ElevatedButton.icon(
                             onPressed: () {
                               pickFilePlay();
                             },

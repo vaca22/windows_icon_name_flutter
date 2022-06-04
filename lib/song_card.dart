@@ -38,7 +38,7 @@ class SongWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                FlatButton.icon(
+                ElevatedButton.icon(
                     onPressed: () {
                       play();
                     },
@@ -46,7 +46,7 @@ class SongWidget extends StatelessWidget {
                         ? Icon(Icons.pause_circle_filled)
                         : Icon(Icons.play_circle_fill),
                     label: song.isPlay ? Text('暂停') : Text('播放')),
-                FlatButton.icon(
+                ElevatedButton.icon(
                     onPressed: () {
                       delete();
                     },

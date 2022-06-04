@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
+typedef DownloadFunction = Function(int a, int b);
+
 class HttpReqUtil {
   static String baseAddr = "";
 
@@ -21,7 +23,7 @@ class HttpReqUtil {
     return httpClient;
   }
 
-  static Future<int> fileUpload(File file) async {
+  static Future<int> fileUpload(File file, DownloadFunction f) async {
     String name = basename(file.path);
     String url = 'http://' + baseAddr + '/upload/' + name;
     final fileStream = file.openRead();
@@ -34,10 +36,8 @@ class HttpReqUtil {
       StreamTransformer.fromHandlers(
         handleData: (data, sink) {
           byteCount += data.length;
-          print("" +
-              byteCount.toString() +
-              "      " +
-              totalByteLength.toString());
+
+          f(byteCount, totalByteLength);
           sink.add(data);
         },
         handleError: (error, stack, sink) {

@@ -155,7 +155,9 @@ class _vacaState extends State<vaca> {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path!);
-      await HttpReqUtil.fileUpload(file);
+      await HttpReqUtil.fileUpload(file, (a, b) {
+        print("" + a.toString() + "      " + b.toString());
+      });
       getMyList();
     }
   }

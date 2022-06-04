@@ -7,9 +7,9 @@ import 'package:path/path.dart';
 class HttpReqUtil {
   static String baseAddr = "";
 
-  void postFile(File f) async {
+  static void postFilePlay(File f) async {
     String name = basename(f.path);
-    var url = Uri.parse('http://' + baseAddr + '/upload/' + name);
+    var url = Uri.parse('http://' + baseAddr + '/uploadPlay/' + name);
     var response = http.post(url, body: f.readAsBytesSync());
     response.asStream().first;
   }

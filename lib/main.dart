@@ -158,6 +158,14 @@ class _vacaState extends State<vaca> {
     }
   }
 
+  void pickFilePlay() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      HttpReqUtil.postFilePlay(file);
+    }
+  }
+
   void getMyList() async {
     try {
       var result = await httpUtils.getList();
@@ -364,7 +372,7 @@ class _vacaState extends State<vaca> {
                           label: Text('上传歌曲')),
                       FlatButton.icon(
                           onPressed: () {
-                            pickFile();
+                            pickFilePlay();
                           },
                           icon: Icon(Icons.pages),
                           label: Text('实时播放')),

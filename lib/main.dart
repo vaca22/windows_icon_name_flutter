@@ -217,6 +217,11 @@ class _vacaState extends State<vaca> {
     setState(() {});
   }
 
+  void volumeInt(int s) async {
+    List<int> bufer = [118, 97, 99, 97, s];
+    mySocket?.send(bufer, InternetAddress(HttpReqUtil.baseAddr), 8889);
+  }
+
   void playList(String s, bool isPlay) async {
     if (isPlay) {
       var result = await httpUtils.pauseItem(s);
@@ -356,7 +361,7 @@ class _vacaState extends State<vaca> {
                             onChangeEnd: (double value) {
                               setState(() {
                                 print(value);
-                                volume(value.toInt().toString());
+                                volumeInt(value.toInt());
                                 // var a = _currentSliderValue = value;
                               });
                             },

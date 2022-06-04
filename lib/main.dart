@@ -331,6 +331,7 @@ class _vacaState extends State<vaca> {
                           divisions: 100,
                           onChanged: (double value) {
                             setState(() {
+                              //  volume(value.toInt().toString());
                               _currentSliderValue = value;
                             });
                           },
@@ -338,7 +339,7 @@ class _vacaState extends State<vaca> {
                             setState(() {
                               print(value);
                               volume(value.toInt().toString());
-                              var a = _currentSliderValue = value;
+                              // var a = _currentSliderValue = value;
                             });
                           },
                         ),

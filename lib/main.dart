@@ -290,7 +290,6 @@ class _vacaState extends State<vaca> {
     super.initState();
     _controller = TextEditingController();
     _controller.text = HttpReqUtil.baseAddr;
-    getMyList();
   }
 
   late TextEditingController _controller;

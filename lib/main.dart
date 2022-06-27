@@ -70,7 +70,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('网络音频');
-    setWindowMinSize(const Size(1000, 700));
+    setWindowMinSize(const Size(900, 700));
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());

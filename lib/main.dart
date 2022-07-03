@@ -158,26 +158,29 @@ class _vacaState extends State<vaca> {
         await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result != null) {
       print(result.files.length);
-      File file = File(result.files.single.path!);
-      await HttpReqUtil.fileUpload(file, (a, b) {
-        if (dispDownload == false) {
+
+      for (int k = 0; k < result.files.length; k++) {
+        File file = File(result.files[k].path!);
+        await HttpReqUtil.fileUpload(file, (a, b) {
+          if (dispDownload == false) {
+            setState(() {
+              downloadProgress = a.toDouble() / b.toDouble();
+              dispDownload = true;
+            });
+          }
           setState(() {
             downloadProgress = a.toDouble() / b.toDouble();
-            dispDownload = true;
           });
-        }
-        setState(() {
-          downloadProgress = a.toDouble() / b.toDouble();
-        });
-        print("" + a.toString() + "      " + b.toString());
+          print("" + a.toString() + "      " + b.toString());
 
-        if (a == b) {
-          setState(() {
-            dispDownload = false;
-          });
-        }
-      });
-      getMyList();
+          if (a == b) {
+            setState(() {
+              dispDownload = false;
+            });
+          }
+        });
+        getMyList();
+      }
     }
   }
 

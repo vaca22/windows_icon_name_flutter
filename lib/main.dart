@@ -179,9 +179,7 @@ class _vacaState extends State<vaca> {
             });
           }
         });
-        await Future.delayed(Duration(microseconds: 300));
         getMyList();
-        await Future.delayed(Duration(microseconds: 300));
       }
     }
   }

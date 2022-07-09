@@ -23,6 +23,13 @@ class HttpReqUtil {
     return httpClient;
   }
 
+  static Future<http.Response> postFile(File f) async {
+    String name = basename(f.path);
+    var url = Uri.parse('http://' + baseAddr + '/upload/' + name);
+    var response = await http.post(url, body: f.readAsBytesSync());
+    return response;
+  }
+
   static Future<int> fileUpload(File file, DownloadFunction f) async {
     String name = basename(file.path);
     String url = 'http://' + baseAddr + '/upload/' + name;
@@ -41,6 +48,7 @@ class HttpReqUtil {
           sink.add(data);
         },
         handleError: (error, stack, sink) {
+          print("fuck");
           print(error.toString());
         },
         handleDone: (sink) {
@@ -48,8 +56,14 @@ class HttpReqUtil {
         },
       ),
     );
-    await request.addStream(streamUpload);
-    await request.close();
+    try {
+      await request.addStream(streamUpload).timeout(Duration(seconds: 10));
+    } on TimeoutException catch (e) {}
+
+    try {
+      await request.close();
+    } catch (e) {}
+
     return 0;
   }
 

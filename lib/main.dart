@@ -161,7 +161,7 @@ class _vacaState extends State<vaca> {
 
       for (int k = 0; k < result.files.length; k++) {
         File file = File(result.files[k].path!);
-        await HttpReqUtil.fileUpload(file, (a, b) {
+        /*  await HttpReqUtil.fileUpload(file, (a, b) {
           if (dispDownload == false) {
             setState(() {
               downloadProgress = a.toDouble() / b.toDouble();
@@ -178,7 +178,8 @@ class _vacaState extends State<vaca> {
               dispDownload = false;
             });
           }
-        });
+        });*/
+        await HttpReqUtil.postFile(file);
         // var duration = const Duration(seconds: 1);
         print('Start sleeping');
         // sleep(duration);

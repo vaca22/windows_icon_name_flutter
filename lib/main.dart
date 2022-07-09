@@ -179,12 +179,12 @@ class _vacaState extends State<vaca> {
             });
           }
         });
-        var duration = const Duration(seconds: 1);
+        // var duration = const Duration(seconds: 1);
         print('Start sleeping');
         // sleep(duration);
         getMyList();
         print('Start sleeping');
-        sleep(duration);
+        // sleep(duration);
       }
     }
   }

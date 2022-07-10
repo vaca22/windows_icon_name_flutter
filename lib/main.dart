@@ -88,18 +88,6 @@ void main() {
     });
   });
 
-  RawDatagramSocket.bind(InternetAddress.anyIPv4, 9999).then((socket) {
-    mySocket = socket;
-    socket.listen((RawSocketEvent event) {
-      if (event == RawSocketEvent.read) {
-        Datagram? dg = socket.receive();
-        if (dg == null) return;
-        final recvd = String.fromCharCodes(dg.data);
-        if (recvd.startsWith("y"))
-          print("$recvd frxxxom ${dg.address.address}:${dg.port}");
-      }
-    });
-  });
   printIps();
 }
 
@@ -299,6 +287,19 @@ class _vacaState extends State<vaca> {
     super.initState();
     _controller = TextEditingController();
     _controller.text = HttpReqUtil.baseAddr;
+
+    RawDatagramSocket.bind(InternetAddress.anyIPv4, 9999).then((socket) {
+      mySocket = socket;
+      socket.listen((RawSocketEvent event) {
+        if (event == RawSocketEvent.read) {
+          Datagram? dg = socket.receive();
+          if (dg == null) return;
+          final recvd = String.fromCharCodes(dg.data);
+          if (recvd.startsWith("y"))
+            print("$recvd frxxxom ${dg.address.address}:${dg.port}");
+        }
+      });
+    });
   }
 
   late TextEditingController _controller;

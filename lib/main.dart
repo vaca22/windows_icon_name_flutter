@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:convert/convert.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/audio_device.dart';
@@ -294,9 +295,33 @@ class _vacaState extends State<vaca> {
         if (event == RawSocketEvent.read) {
           Datagram? dg = socket.receive();
           if (dg == null) return;
-          final recvd = String.fromCharCodes(dg.data);
-          if (recvd.startsWith("y"))
-            print("$recvd frxxxom ${dg.address.address}:${dg.port}");
+          var nn = dg.data;
+          var lenend = 7;
+          for (int k = 7; k < 30; k++) {
+            if (nn[k] == 0) {
+              lenend = k;
+              break;
+            }
+          }
+          final recvd = String.fromCharCodes(dg.data.sublist(7, lenend));
+          var result = hex.encode(nn);
+          result = result.substring(2, 14).toUpperCase();
+          List<String> mac = [];
+          for (int k = 0; k < 6; k++) {
+            mac.add(result.substring(k * 2, k * 2 + 2));
+          }
+          result = "";
+          for (int k = 0; k < 6; k++) {
+            if (k < 5) {
+              result += mac[5 - k] + ":";
+            } else {
+              result += mac[5 - k];
+            }
+          }
+          int rssi = -(nn[0].toInt());
+
+          print(
+              "$recvd frxxxom ${dg.address.address}:${dg.port}   ${result} ${rssi}");
         }
       });
     });

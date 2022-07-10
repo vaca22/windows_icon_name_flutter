@@ -21,10 +21,7 @@ void setIp(String ip) async {
 }
 
 void getIp() async {
-  // Obtain shared preferences.
   final prefs = await SharedPreferences.getInstance();
-
-  // Try reading data from the 'counter' key. If it doesn't exist, returns null.
   final String? counter = prefs.getString('ip');
   if (counter != null) {
     print("" + counter.toString());
@@ -70,7 +67,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('网络音频');
-    setWindowMinSize(const Size(900, 700));
+    setWindowMinSize(const Size(1500, 700));
     setWindowMaxSize(Size.infinite);
   }
   runApp(const MyApp());
@@ -87,8 +84,19 @@ void main() {
           print("$recvd from ${dg.address.address}:${dg.port}");
       }
     });
-    // socket.send(
-    //     Utf8Codec().encode("vaca"), InternetAddress("192.168.6.109"), 8889);
+  });
+
+  RawDatagramSocket.bind(InternetAddress.anyIPv4, 9999).then((socket) {
+    mySocket = socket;
+    socket.listen((RawSocketEvent event) {
+      if (event == RawSocketEvent.read) {
+        Datagram? dg = socket.receive();
+        if (dg == null) return;
+        final recvd = String.fromCharCodes(dg.data);
+        if (recvd.startsWith("y"))
+          print("$recvd frxxxom ${dg.address.address}:${dg.port}");
+      }
+    });
   });
   printIps();
 }
@@ -117,17 +125,37 @@ class vaca extends StatefulWidget {
 
 class _vacaState extends State<vaca> {
   List<Song> song = [];
+  List<Song> bleDevices = [];
+
   List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
   double _currentSliderValue = 60;
-  bool rightViewVisibility = false;
+  bool rightViewVisibility = true;
   double downloadProgress = 0;
   bool dispDownload = false;
 
   final ScrollController _scrollController = ScrollController();
-
+  final ScrollController _bleScrollController = ScrollController();
   List<Widget> dispSongList() {
     List<Widget> result = song
+        .map((quote) => SongWidget(
+              song: quote,
+              delete: () {
+                delList(quote.text);
+              },
+              play: () {
+                playList(quote.text, quote.isPlay);
+              },
+            ))
+        .toList();
+    return result;
+  }
+
+  List<Widget> dispBleList() {
+    bleDevices.add(Song(text: "好吃", author: "好吃"));
+    bleDevices.add(Song(text: "好玩", author: "好玩"));
+
+    List<Widget> result = bleDevices
         .map((quote) => SongWidget(
               song: quote,
               delete: () {
@@ -161,31 +189,8 @@ class _vacaState extends State<vaca> {
 
       for (int k = 0; k < result.files.length; k++) {
         File file = File(result.files[k].path!);
-        /*  await HttpReqUtil.fileUpload(file, (a, b) {
-          if (dispDownload == false) {
-            setState(() {
-              downloadProgress = a.toDouble() / b.toDouble();
-              dispDownload = true;
-            });
-          }
-          setState(() {
-            downloadProgress = a.toDouble() / b.toDouble();
-          });
-          print("" + a.toString() + "      " + b.toString());
-
-          if (a == b) {
-            setState(() {
-              dispDownload = false;
-            });
-          }
-        });*/
         await HttpReqUtil.postFile(file);
-        // var duration = const Duration(seconds: 1);
-        print('Start sleeping');
-        // sleep(duration);
         getMyList();
-        print('Start sleeping');
-        // sleep(duration);
       }
     }
   }
@@ -208,7 +213,7 @@ class _vacaState extends State<vaca> {
         song.add(Song(text: tagsJson[k], author: ""));
       }
     } catch (e) {
-      // song.clear();
+      song.clear();
     }
 
     if (HttpReqUtil.baseAddr.isEmpty) {
@@ -334,6 +339,7 @@ class _vacaState extends State<vaca> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          //Left View
                           ElevatedButton.icon(
                               onPressed: () {
                                 scanTcp().then((value) => fuckDevice(value));
@@ -350,6 +356,25 @@ class _vacaState extends State<vaca> {
                   children: dispDeviceList(),
                 )),
               ],
+            ),
+          ),
+          Visibility(
+            visible: rightViewVisibility,
+            child: SizedBox(
+              width: 350,
+              child: Column(
+                children: [
+                  Expanded(
+                      child: Scrollbar(
+                    controller: _bleScrollController,
+                    isAlwaysShown: true,
+                    child: ListView(
+                      controller: _bleScrollController,
+                      children: dispBleList(),
+                    ),
+                  )),
+                ],
+              ),
             ),
           ),
           Visibility(
@@ -384,7 +409,6 @@ class _vacaState extends State<vaca> {
                             divisions: 100,
                             onChanged: (double value) {
                               setState(() {
-                                //  volume(value.toInt().toString());
                                 _currentSliderValue = value;
                               });
                             },
@@ -392,7 +416,6 @@ class _vacaState extends State<vaca> {
                               setState(() {
                                 print(value);
                                 volumeInt(value.toInt());
-                                // var a = _currentSliderValue = value;
                               });
                             },
                           ),

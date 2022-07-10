@@ -143,9 +143,6 @@ class _vacaState extends State<vaca> {
   }
 
   List<Widget> dispBleList() {
-    bleDevices.add(BleInfo(name: "好吃", mac: "godofdf", rssi: "asdf"));
-    bleDevices.add(BleInfo(name: "好吃", mac: "godofsdsdf", rssi: "asdsdf"));
-
     List<Widget> result =
         bleDevices.map((quote) => BleWidget(bleInfo: quote)).toList();
     return result;
@@ -319,6 +316,26 @@ class _vacaState extends State<vaca> {
             }
           }
           int rssi = -(nn[0].toInt());
+
+          var haveSame = false;
+          var sameIndex = 0;
+          for (var k in bleDevices) {
+            if (k.mac == result) {
+              haveSame = true;
+              break;
+            }
+            sameIndex++;
+          }
+          if (haveSame == false) {
+            setState(() {
+              bleDevices.add(
+                  BleInfo(name: recvd, mac: result, rssi: rssi.toString()));
+            });
+          } else {
+            setState(() {
+              bleDevices[sameIndex].rssi = rssi.toString();
+            });
+          }
 
           print(
               "$recvd frxxxom ${dg.address.address}:${dg.port}   ${result} ${rssi}");

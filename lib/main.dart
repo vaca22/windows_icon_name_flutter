@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http_file_list_flutter/audio_device.dart';
+import 'package:http_file_list_flutter/bleInfo.dart';
+import 'package:http_file_list_flutter/ble_card.dart';
 import 'package:http_file_list_flutter/device_card.dart';
 import 'package:http_file_list_flutter/portscanner.dart';
 import 'package:http_file_list_flutter/song_card.dart';
@@ -125,7 +127,7 @@ class vaca extends StatefulWidget {
 
 class _vacaState extends State<vaca> {
   List<Song> song = [];
-  List<Song> bleDevices = [];
+  List<BleInfo> bleDevices = [];
 
   List<AudioDevice> audioDevice = [];
   HttpReqUtil httpUtils = HttpReqUtil();
@@ -152,20 +154,11 @@ class _vacaState extends State<vaca> {
   }
 
   List<Widget> dispBleList() {
-    bleDevices.add(Song(text: "好吃", author: "好吃"));
-    bleDevices.add(Song(text: "好玩", author: "好玩"));
+    bleDevices.add(BleInfo(name: "好吃", mac: "godofdf", rssi: "asdf"));
+    bleDevices.add(BleInfo(name: "好吃", mac: "godofsdsdf", rssi: "asdsdf"));
 
-    List<Widget> result = bleDevices
-        .map((quote) => SongWidget(
-              song: quote,
-              delete: () {
-                delList(quote.text);
-              },
-              play: () {
-                playList(quote.text, quote.isPlay);
-              },
-            ))
-        .toList();
+    List<Widget> result =
+        bleDevices.map((quote) => BleWidget(bleInfo: quote)).toList();
     return result;
   }
 
